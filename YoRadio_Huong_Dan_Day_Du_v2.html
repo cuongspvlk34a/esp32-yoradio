@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YoRadio – Hướng Dẫn Đầy Đủ v2</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Sora:wght@300;400;600;700;800&display=swap');
+
+  :root {
+    --bg: #0d0f14;
+    --bg2: #141720;
+    --bg3: #1c2030;
+    --border: #2a3045;
+    --accent: #4f8ef7;
+    --accent2: #f7934f;
+    --accent3: #4ff7a0;
+    --warn: #f7d44f;
+    --danger: #f7504f;
+    --text: #d0d8f0;
+    --text-dim: #7888aa;
+    --code-bg: #0a0c10;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Sora', sans-serif; font-size: 15px; line-height: 1.7; padding-bottom: 80px; }
+
+  header { background: linear-gradient(135deg, #0d0f14 0%, #1a2040 50%, #0d1525 100%); border-bottom: 1px solid var(--border); padding: 50px 40px 40px; position: relative; overflow: hidden; }
+  header::before { content: ''; position: absolute; top: -80px; right: -80px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(79,142,247,0.15) 0%, transparent 70%); pointer-events: none; }
+  .header-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent3); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px; }
+  header h1 { font-size: 38px; font-weight: 800; color: #fff; line-height: 1.1; margin-bottom: 10px; }
+  header h1 span { color: var(--accent); }
+  .header-sub { color: var(--text-dim); font-size: 13px; }
+  .version-badge { display: inline-block; background: var(--accent3); color: #0d0f14; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-top: 10px; }
+  .hw-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .chip { background: var(--bg3); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--accent); }
+  .chip.green { color: var(--accent3); }
+  .chip.orange { color: var(--accent2); }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+  .toc { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 24px 28px; margin: 36px 0 0; }
+  .toc-title { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--text-dim); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
+  .toc ol { padding-left: 20px; }
+  .toc li { margin: 5px 0; }
+  .toc a { color: var(--accent); text-decoration: none; font-size: 13px; }
+  .toc a:hover { color: #fff; }
+
+  .section { margin-top: 48px; }
+  .section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+  .step-num { background: var(--accent); color: #fff; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 13px; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-num.green { background: var(--accent3); color: #0d0f14; }
+  .step-num.orange { background: var(--accent2); color: #0d0f14; }
+  .step-num.red { background: var(--danger); }
+  .section-title { font-size: 20px; font-weight: 700; color: #fff; }
+  .section-title small { display: block; font-size: 12px; font-weight: 400; color: var(--text-dim); margin-top: 2px; }
+
+  .alert { border-radius: 10px; padding: 14px 18px; margin: 16px 0; font-size: 14px; display: flex; gap: 12px; align-items: flex-start; border-left: 3px solid; }
+  .alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .alert.danger { background: rgba(247,80,79,0.08); border-color: var(--danger); }
+  .alert.warn { background: rgba(247,212,79,0.08); border-color: var(--warn); color: var(--warn); }
+  .alert.info { background: rgba(79,142,247,0.08); border-color: var(--accent); }
+  .alert.success { background: rgba(79,247,160,0.08); border-color: var(--accent3); color: var(--accent3); }
+  .alert strong { display: block; margin-bottom: 4px; color: inherit; }
+
+  .table-wrap { overflow-x: auto; margin: 16px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th { background: var(--bg3); color: var(--text-dim); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  tbody td { padding: 9px 14px; border-bottom: 1px solid rgba(42,48,69,0.5); vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: rgba(79,142,247,0.04); }
+  .pin { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-weight: 700; }
+  .pin.green { color: var(--accent3); }
+  .note-dim { color: var(--text-dim); font-size: 12px; }
+  .shared { color: var(--warn); font-size: 11px; font-family: 'JetBrains Mono', monospace; }
+
+  pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6; margin: 14px 0; }
+  .code-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+  .c-green { color: #4ff7a0; }
+  .c-blue { color: #4f8ef7; }
+  .c-orange { color: #f7934f; }
+  .c-red { color: #f7504f; }
+  .c-yellow { color: #f7d44f; }
+  .c-dim { color: #4a5568; }
+
+  .steps { list-style: none; padding: 0; }
+  .steps li { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px dashed rgba(42,48,69,0.6); align-items: flex-start; }
+  .steps li:last-child { border-bottom: none; }
+  .step-dot { width: 26px; height: 26px; background: var(--bg3); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+
+  .wiring-group { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; margin: 16px 0; overflow: hidden; }
+  .wiring-header { background: var(--bg3); padding: 10px 18px; font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--accent); letter-spacing: 1px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+
+  .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0; }
+  @media (max-width: 600px) { .settings-grid { grid-template-columns: 1fr; } }
+  .setting-item { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .setting-key { font-size: 12px; color: var(--text-dim); }
+  .setting-val { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--accent3); font-weight: 700; }
+
+  .errata { background: rgba(247,80,79,0.06); border: 1px solid rgba(247,80,79,0.3); border-radius: 12px; padding: 20px 24px; margin: 20px 0; }
+  .errata-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--danger); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
+  .errata-item { display: flex; gap: 12px; margin: 10px 0; font-size: 13px; }
+  .errata-x { color: var(--danger); font-weight: 700; flex-shrink: 0; }
+  .errata-check { color: var(--accent3); font-weight: 700; flex-shrink: 0; }
+
+  hr.divider { border: none; border-top: 1px solid var(--border); margin: 40px 0 0; }
+  p { margin: 10px 0; }
+  strong { color: #fff; }
+  a { color: var(--accent); }
+  footer { margin-top: 60px; padding: 24px; text-align: center; color: var(--text-dim); font-size: 12px; border-top: 1px solid var(--border); }
+
+  .confirm-box { background: var(--bg2); border: 1px solid var(--accent3); border-radius: 10px; padding: 14px 18px; margin: 16px 0; font-size: 13px; }
+  .confirm-title { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent3); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="header-tag">// esp32 internet radio · hướng dẫn đầy đủ</div>
+    <h1>Yo<span>Radio</span><br>Hướng Dẫn Đầy Đủ</h1>
+    <p class="header-sub">Đã xác minh qua source code v0.9.720 · Đã kiểm tra thực tế</p>
+    <div class="version-badge">v2 — ĐÃ SỬA LỖI</div>
+    <div class="hw-chips">
+      <span class="chip">ESP32-WROOM-32 DevKitC</span>
+      <span class="chip green">MAX98357 I2S</span>
+      <span class="chip orange">ST7789V 2.8" FEIYANG</span>
+      <span class="chip">XPT2046 Touch</span>
+      <span class="chip">SD Card</span>
+      <span class="chip green">KY-040 Encoder</span>
+      <span class="chip orange">IR1838</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- ERRATA -->
+  <div class="errata" style="margin-top:32px;">
+    <div class="errata-title">⚠ Đính chính — Các lỗi đã sửa so với hướng dẫn cũ</div>
+    <div class="errata-item">
+      <span class="errata-x">✗</span>
+      <span><strong>Partition Scheme "Default 4MB with spiffs" → SAI.</strong> Phải dùng <strong>Minimal SPIFFS (1.9MB APP with OTA/190KB SPIFFS)</strong>. Tổng kích thước 11 file web chỉ ~29KB, hoàn toàn vừa trong 190KB SPIFFS.</span>
+    </div>
+    <div class="errata-item">
+      <span class="errata-x">✗</span>
+      <span><strong>Cài thư viện IRremoteESP8266 → SAI.</strong> Thư viện này đã được tích hợp sẵn trong project tại <code>src/IRremoteESP8266/</code>. Cài thêm từ Library Manager sẽ gây xung đột và lỗi compile.</span>
+    </div>
+    <div class="errata-item">
+      <span class="errata-x">✗</span>
+      <span><strong><code>#define XTASK_MEM_SIZE 4096</code> trong myoptions.h → KHÔNG CẦN.</strong> Project đã tự xử lý trong <code>AsyncTCP.h</code> với giá trị hợp lý. Không cần thêm dòng này vào myoptions.h.</span>
+    </div>
+    <div class="errata-item">
+      <span class="errata-x">✗</span>
+      <span><strong>Dùng ESP32FS Plugin để upload SPIFFS → KHÔNG CẦN.</strong> Từ v0.9.000, firmware có WEB Board Uploader tích hợp sẵn. Upload qua trình duyệt sau khi nạp sketch.</span>
+    </div>
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">Mục lục</div>
+    <ol>
+      <li><a href="#phan1">Sơ đồ kết nối phần cứng</a></li>
+      <li><a href="#phan2">Cài đặt môi trường Arduino IDE</a></li>
+      <li><a href="#phan3">Chuẩn bị project & myoptions.h</a></li>
+      <li><a href="#phan4">Cài đặt board & upload sketch</a></li>
+      <li><a href="#phan5">Upload data qua WEB Board Uploader</a></li>
+      <li><a href="#phan6">Cấu hình lần đầu</a></li>
+      <li><a href="#phan7">Điều khiển thiết bị</a></li>
+      <li><a href="#phan8">Troubleshooting</a></li>
+    </ol>
+  </div>
+
+  <!-- ══════════════════════════════════════ PHẦN 1 -->
+  <div class="section" id="phan1">
+    <div class="section-header">
+      <div class="step-num green">1</div>
+      <div class="section-title">Sơ đồ kết nối phần cứng
+        <small>Đọc kỹ trước khi cắm dây. Cắm sai có thể cháy module.</small>
+      </div>
+    </div>
+
+    <div class="alert info">
+      <span class="alert-icon">ℹ️</span>
+      <div>Module FEIYANG 2.8" dùng <strong>1 bus SPI VSPI chung</strong> cho cả 3 thiết bị: TFT màn hình, XPT2046 cảm ứng, SD card. SCK=IO18, MOSI=IO23, MISO=IO19 nối tới cả 3 — phân biệt nhau qua chân CS riêng.</div>
+    </div>
+
+    <div class="wiring-group">
+      <div class="wiring-header">🔗 BUS SPI VSPI CHUNG (3 thiết bị dùng chung)</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tín hiệu</th><th>ESP32 GPIO</th><th>Đi tới</th></tr></thead>
+          <tbody>
+            <tr><td>SCK / CLK</td><td><span class="pin">IO18</span></td><td>TFT SCK · T_CLK · SD_SCK</td></tr>
+            <tr><td>MOSI / DIN</td><td><span class="pin">IO23</span></td><td>TFT SDI · T_DIN · SD_MOSI</td></tr>
+            <tr><td>MISO / DO</td><td><span class="pin">IO19</span></td><td>T_DO (XPT2046) · SD_MISO <span class="note-dim">(TFT không cần MISO)</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="wiring-group">
+      <div class="wiring-header">🖥️ MÀN HÌNH TFT ST7789V</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Chân FEIYANG</th><th>ESP32 GPIO</th><th>Ghi chú</th></tr></thead>
+          <tbody>
+            <tr><td>VCC</td><td><span class="pin green">3.3V</span></td><td></td></tr>
+            <tr><td>GND</td><td><span class="pin">GND</span></td><td></td></tr>
+            <tr><td>CS (LCD_CS)</td><td><span class="pin">IO5</span></td><td></td></tr>
+            <tr><td>RESET</td><td><span class="pin">IO15</span></td><td><span class="note-dim">Phải cắm dây thực sự</span></td></tr>
+            <tr><td>DC / RS</td><td><span class="pin">IO4</span></td><td></td></tr>
+            <tr><td>SCK</td><td><span class="pin">IO18</span></td><td><span class="shared">BUS CHUNG</span></td></tr>
+            <tr><td>SDI / MOSI</td><td><span class="pin">IO23</span></td><td><span class="shared">BUS CHUNG</span></td></tr>
+            <tr><td>LED (backlight)</td><td><span class="pin green">3.3V</span></td><td><span class="note-dim">Hoặc qua điện trở 100Ω</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="wiring-group">
+      <div class="wiring-header">👆 CẢM ỨNG XPT2046</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Chân FEIYANG</th><th>ESP32 GPIO</th><th>Ghi chú</th></tr></thead>
+          <tbody>
+            <tr><td>T_CLK</td><td><span class="pin">IO18</span></td><td><span class="shared">BUS CHUNG</span></td></tr>
+            <tr><td>T_CS</td><td><span class="pin">IO16</span></td><td>CS riêng</td></tr>
+            <tr><td>T_DIN</td><td><span class="pin">IO23</span></td><td><span class="shared">BUS CHUNG</span></td></tr>
+            <tr><td>T_DO</td><td><span class="pin">IO19</span></td><td><span class="shared">BUS CHUNG</span></td></tr>
+            <tr><td>T_IRQ</td><td><span class="note-dim">Không cắm</span></td><td><span class="note-dim">Để trống</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="wiring-group">
+      <div class="wiring-header">💾 SD CARD</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Chân FEIYANG</th><th>ESP32 GPIO</th><th>Ghi chú</th></tr></thead>
+          <tbody>
+            <tr><td>SD_SCK</td><td><span class="pin">IO18</span></td><td><span class="shared">BUS CHUNG</span></td></tr>
+            <tr><td>SD_MISO</td><td><span class="pin">IO19</span></td><td><span class="shared">BUS CHUNG</span></td></tr>
+            <tr><td>SD_MOSI</td><td><span class="pin">IO23</span></td><td><span class="shared">BUS CHUNG</span></td></tr>
+            <tr><td>SD_CS</td><td><span class="pin">IO17</span></td><td>CS riêng</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="wiring-group">
+      <div class="wiring-header">🔊 I2S DAC MAX98357 + LOA</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Chân MAX98357</th><th>ESP32 GPIO</th><th>Ghi chú</th></tr></thead>
+          <tbody>
+            <tr><td>VIN</td><td><span class="pin green">3.3V hoặc 5V</span></td><td><span class="note-dim">5V cho âm lượng lớn hơn</span></td></tr>
+            <tr><td>GND</td><td><span class="pin">GND</span></td><td></td></tr>
+            <tr><td>DIN</td><td><span class="pin">IO27</span></td><td></td></tr>
+            <tr><td>BCLK</td><td><span class="pin">IO26</span></td><td></td></tr>
+            <tr><td>LRC / WSEL</td><td><span class="pin">IO25</span></td><td></td></tr>
+            <tr><td>SD / GAIN</td><td><span class="note-dim">Để trống</span></td><td><span class="note-dim">Gain mặc định 9dB</span></td></tr>
+            <tr><td>OUT+ / OUT−</td><td colspan="2"><span class="note-dim">Nối thẳng vào 2 chân loa 4Ω 3W</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="wiring-group">
+      <div class="wiring-header">🎛️ ENCODER KY-040</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Chân KY-040</th><th>ESP32 GPIO</th><th>Chức năng</th></tr></thead>
+          <tbody>
+            <tr><td>VCC (+)</td><td><span class="pin green">3.3V</span></td><td></td></tr>
+            <tr><td>GND</td><td><span class="pin">GND</span></td><td></td></tr>
+            <tr><td>CLK (A)</td><td><span class="pin">IO34</span></td><td>Vol− / quay trái</td></tr>
+            <tr><td>DT (B)</td><td><span class="pin">IO35</span></td><td>Vol+ / quay phải</td></tr>
+            <tr><td>SW</td><td><span class="pin">IO32</span></td><td>Nhấn nút</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="alert info">
+      <span class="alert-icon">💡</span>
+      <div>IO34 và IO35 là <strong>input-only</strong> trên ESP32 — phù hợp cho encoder. KY-040 đã có pull-up 10K trên board nên <code>ENC_INTERNALPULLUP false</code>. Nếu encoder quay ngược chiều: đổi chỗ 2 dây CLK và DT là xong.</div>
+    </div>
+
+    <div class="wiring-group">
+      <div class="wiring-header">📡 IR RECEIVER IR1838</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Chân IR1838</th><th>ESP32 GPIO</th><th>Ghi chú</th></tr></thead>
+          <tbody>
+            <tr><td>VCC (S)</td><td><span class="pin green">3.3V</span></td><td></td></tr>
+            <tr><td>GND</td><td><span class="pin">GND</span></td><td></td></tr>
+            <tr><td>OUT</td><td><span class="pin">IO36</span></td><td><span class="note-dim">IO36 input-only — phù hợp</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <p style="margin-top:20px;"><strong>Tóm tắt tất cả GPIO đã dùng:</strong></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>GPIO</th><th>Chức năng</th><th>GPIO</th><th>Chức năng</th></tr></thead>
+        <tbody>
+          <tr><td><span class="pin">IO4</span></td><td>TFT DC</td><td><span class="pin">IO25</span></td><td>I2S LRC</td></tr>
+          <tr><td><span class="pin">IO5</span></td><td>TFT CS</td><td><span class="pin">IO26</span></td><td>I2S BCLK</td></tr>
+          <tr><td><span class="pin">IO15</span></td><td>TFT RST</td><td><span class="pin">IO27</span></td><td>I2S DOUT</td></tr>
+          <tr><td><span class="pin">IO16</span></td><td>Touch CS</td><td><span class="pin">IO32</span></td><td>Encoder SW</td></tr>
+          <tr><td><span class="pin">IO17</span></td><td>SD CS</td><td><span class="pin">IO34</span></td><td>Encoder CLK</td></tr>
+          <tr><td><span class="pin">IO18</span></td><td>SPI SCK</td><td><span class="pin">IO35</span></td><td>Encoder DT</td></tr>
+          <tr><td><span class="pin">IO19</span></td><td>SPI MISO</td><td><span class="pin">IO36</span></td><td>IR OUT</td></tr>
+          <tr><td><span class="pin">IO23</span></td><td>SPI MOSI</td><td></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════ PHẦN 2 -->
+  <div class="section" id="phan2">
+    <div class="section-header">
+      <div class="step-num">2</div>
+      <div class="section-title">Cài đặt môi trường Arduino IDE
+        <small>Làm đúng thứ tự, không bỏ bước nào.</small>
+      </div>
+    </div>
+
+    <div class="alert danger">
+      <span class="alert-icon">🚫</span>
+      <div>
+        <strong>Arduino IDE 2.x.x KHÔNG được hỗ trợ.</strong> Phải dùng <strong>Arduino IDE 1.8.19</strong>.<br>
+        <strong>ESP32 core 3.x chưa tương thích.</strong> Chỉ dùng core <strong>2.x</strong> (ví dụ 2.0.17).
+      </div>
+    </div>
+
+    <ul class="steps">
+      <li>
+        <div class="step-dot">1</div>
+        <div>
+          <strong>Tải Arduino IDE 1.8.19</strong><br>
+          <span class="note-dim">Vào <a href="https://www.arduino.cc/en/software">arduino.cc/en/software</a> → mục "Legacy IDE (1.8.X)"</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-dot">2</div>
+        <div>
+          <strong>Thêm ESP32 board URL</strong><br>
+          <span class="note-dim">File → Preferences → dán vào "Additional Boards Manager URLs":</span>
+          <pre><span class="c-green">https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json</span></pre>
+        </div>
+      </li>
+      <li>
+        <div class="step-dot">3</div>
+        <div>
+          <strong>Cài ESP32 core 2.x</strong><br>
+          <span class="note-dim">Tools → Board → Boards Manager → tìm <strong>"esp32 by Espressif"</strong> → chọn phiên bản <strong>2.0.17</strong> → Install</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-dot">4</div>
+        <div>
+          <strong>Cài đúng 4 thư viện — qua Library Manager</strong><br>
+          <span class="note-dim">Sketch → Include Library → Manage Libraries → tìm và cài từng cái:</span>
+          <pre><span class="c-blue">Adafruit GFX Library
+Adafruit ST7735 and ST7789 Libraries
+OneButton
+XPT2046_Touchscreen</span></pre>
+          <div class="alert danger" style="margin-top:10px;">
+            <span class="alert-icon">🚫</span>
+            <div>
+              <strong>KHÔNG cài các thư viện sau — đã built-in trong project:</strong><br>
+              <code>IRremoteESP8266</code> · <code>ESP32-audioI2S</code> · <code>AsyncTCP</code> · <code>ESPAsyncWebServer</code> · <code>async-mqtt-client</code><br>
+              Cài thêm sẽ gây xung đột và lỗi compile ngay.
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="step-dot">5</div>
+        <div>
+          <strong>Thay file glcdfont.c — Bắt buộc</strong><br>
+          <span class="note-dim">Tìm file gốc trong thư mục Arduino libraries:</span>
+          <pre><span class="c-orange">Windows:</span> <span class="c-green">C:\Users\[tên]\Documents\Arduino\libraries\Adafruit_GFX_Library\glcdfont.c</span>
+<span class="c-orange">macOS:</span>   <span class="c-green">~/Documents/Arduino/libraries/Adafruit_GFX_Library/glcdfont.c</span></pre>
+          <span class="note-dim">Thay bằng file từ project:</span>
+          <pre><span class="c-green">yoradio-main/yoRadio/fonts/glcdfont.c</span></pre>
+          <span class="note-dim">Sau đó <strong>khởi động lại Arduino IDE</strong>. Không thay file này → icon WiFi, signal, volume hiển thị ký tự lạ.</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════ PHẦN 3 -->
+  <div class="section" id="phan3">
+    <div class="section-header">
+      <div class="step-num orange">3</div>
+      <div class="section-title">Chuẩn bị project & myoptions.h
+        <small>Cấu trúc thư mục phải đúng trước khi compile.</small>
+      </div>
+    </div>
+
+    <ul class="steps">
+      <li>
+        <div class="step-dot">1</div>
+        <div>
+          <strong>Giải nén yoradio-main.zip</strong><br>
+          <span class="note-dim">Cấu trúc thư mục cần có:</span>
+          <pre><span class="c-dim">yoradio-main/</span>
+└── <span class="c-blue">yoRadio/</span>
+    ├── <span class="c-green">yoRadio.ino</span>       <span class="c-dim">← file chính, mở file này trong Arduino IDE</span>
+    ├── <span class="c-orange">myoptions.h</span>       <span class="c-dim">← ĐẶT VÀO ĐÂY, cùng thư mục với .ino</span>
+    └── data/
+        ├── www/          <span class="c-dim">← 11 file web interface</span>
+        └── data/         <span class="c-dim">← playlist.csv, wifi.csv (để trống ban đầu)</span></pre>
+        </div>
+      </li>
+      <li>
+        <div class="step-dot">2</div>
+        <div>
+          <strong>Nội dung file myoptions.h — chính xác</strong>
+          <div class="code-label">myoptions.h — đã xác minh qua source code</div>
+          <pre><span class="c-dim">#ifndef myoptions_h
+#define myoptions_h</span>
+
+<span class="c-dim">// Ngôn ngữ</span>
+<span class="c-orange">#define</span> <span class="c-blue">L10N_LANGUAGE</span>      <span class="c-green">EN</span>
+
+<span class="c-dim">// Màn hình ST7789V 240x320 SPI</span>
+<span class="c-orange">#define</span> <span class="c-blue">DSP_MODEL</span>          <span class="c-green">DSP_ST7789</span>
+<span class="c-orange">#define</span> <span class="c-blue">TFT_CS</span>             <span class="c-yellow">5</span>
+<span class="c-orange">#define</span> <span class="c-blue">TFT_DC</span>             <span class="c-yellow">4</span>
+<span class="c-orange">#define</span> <span class="c-blue">TFT_RST</span>            <span class="c-yellow">15</span>
+
+<span class="c-dim">// Cảm ứng XPT2046 (VSPI dùng chung)</span>
+<span class="c-orange">#define</span> <span class="c-blue">TS_MODEL</span>           <span class="c-green">TS_MODEL_XPT2046</span>
+<span class="c-orange">#define</span> <span class="c-blue">TS_CS</span>              <span class="c-yellow">16</span>
+
+<span class="c-dim">// SD Card (VSPI dùng chung)</span>
+<span class="c-orange">#define</span> <span class="c-blue">SDC_CS</span>             <span class="c-yellow">17</span>
+
+<span class="c-dim">// I2S DAC MAX98357</span>
+<span class="c-orange">#define</span> <span class="c-blue">I2S_DOUT</span>           <span class="c-yellow">27</span>
+<span class="c-orange">#define</span> <span class="c-blue">I2S_BCLK</span>           <span class="c-yellow">26</span>
+<span class="c-orange">#define</span> <span class="c-blue">I2S_LRC</span>            <span class="c-yellow">25</span>
+<span class="c-orange">#define</span> <span class="c-blue">VS1053_CS</span>          <span class="c-yellow">255</span>  <span class="c-dim">// tắt VS1053, dùng I2S DAC</span>
+
+<span class="c-dim">// Encoder KY-040</span>
+<span class="c-orange">#define</span> <span class="c-blue">ENC_BTNL</span>           <span class="c-yellow">34</span>   <span class="c-dim">// CLK → vol-</span>
+<span class="c-orange">#define</span> <span class="c-blue">ENC_BTNR</span>           <span class="c-yellow">35</span>   <span class="c-dim">// DT  → vol+</span>
+<span class="c-orange">#define</span> <span class="c-blue">ENC_BTNB</span>           <span class="c-yellow">32</span>   <span class="c-dim">// SW  → nhấn nút</span>
+<span class="c-orange">#define</span> <span class="c-blue">ENC_INTERNALPULLUP</span> <span class="c-green">false</span>
+
+<span class="c-dim">// IR Receiver IR1838</span>
+<span class="c-orange">#define</span> <span class="c-blue">IR_PIN</span>             <span class="c-yellow">36</span>
+
+<span class="c-dim">#endif</span></pre>
+          <div class="alert warn" style="margin-top:10px;">
+            <span class="alert-icon">⚠️</span>
+            <div>Nếu encoder quay ngược chiều sau khi lắp: đổi chỗ 2 dây CLK↔DT trên board vật lý. Hoặc đổi <code>ENC_BTNL 34 ↔ ENC_BTNR 35</code> trong file này rồi upload lại.</div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════ PHẦN 4 -->
+  <div class="section" id="phan4">
+    <div class="section-header">
+      <div class="step-num red">4</div>
+      <div class="section-title">Cài đặt board & upload sketch
+        <small>Chú ý Partition Scheme — đây là điểm hay sai nhất.</small>
+      </div>
+    </div>
+
+    <p><strong>Cài đặt trong Tools menu — phải đúng từng mục:</strong></p>
+    <div class="settings-grid">
+      <div class="setting-item"><span class="setting-key">Board</span><span class="setting-val">ESP32 Dev Module</span></div>
+      <div class="setting-item"><span class="setting-key">CPU Frequency</span><span class="setting-val">240MHz (WiFi/BT)</span></div>
+      <div class="setting-item"><span class="setting-key">Flash Frequency</span><span class="setting-val">80MHz</span></div>
+      <div class="setting-item"><span class="setting-key">Flash Mode</span><span class="setting-val">QIO</span></div>
+      <div class="setting-item"><span class="setting-key">Flash Size</span><span class="setting-val">4MB (32Mb)</span></div>
+      <div class="setting-item"><span class="setting-key">Upload Speed</span><span class="setting-val">921600</span></div>
+      <div class="setting-item"><span class="setting-key">PSRAM</span><span class="setting-val">Disabled</span></div>
+      <div class="setting-item"><span class="setting-key">Core Debug Level</span><span class="setting-val">None</span></div>
+    </div>
+
+    <div class="alert danger" style="margin-top:4px;">
+      <span class="alert-icon">🚫</span>
+      <div>
+        <strong>Partition Scheme phải là: Minimal SPIFFS (1.9MB APP with OTA/190KB SPIFFS)</strong><br>
+        Tổng 11 file web chỉ ~29KB — vừa trong 190KB SPIFFS. Đây là scheme đúng đã kiểm tra thực tế.
+      </div>
+    </div>
+
+    <ul class="steps" style="margin-top:20px;">
+      <li>
+        <div class="step-dot">1</div>
+        <div>
+          <strong>Mở file yoRadio.ino trong Arduino IDE</strong><br>
+          <span class="note-dim">File → Open → chọn <code>yoradio-main/yoRadio/yoRadio.ino</code></span>
+        </div>
+      </li>
+      <li>
+        <div class="step-dot">2</div>
+        <div>
+          <strong>Upload sketch — nhấn Ctrl+U</strong><br>
+          <span class="note-dim">Lần đầu compile ~3–8 phút vì file Audio.cpp rất lớn (~221KB). Bình thường, không phải lỗi.</span>
+          <div class="alert warn" style="margin-top:10px;">
+            <span class="alert-icon">⚠️</span>
+            <div><strong>Nếu lỗi "Failed to connect":</strong> Giữ nút <strong>BOOT</strong> trên ESP32 → nhấn Upload → thả BOOT khi thấy dòng "Connecting..." xuất hiện.</div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════ PHẦN 5 -->
+  <div class="section" id="phan5">
+    <div class="section-header">
+      <div class="step-num green">5</div>
+      <div class="section-title">Upload data qua WEB Board Uploader
+        <small>Không cần ESP32FS Plugin. Làm sau khi đã upload sketch.</small>
+      </div>
+    </div>
+
+    <div class="alert success">
+      <span class="alert-icon">✅</span>
+      <div>Từ v0.9.000, firmware tích hợp sẵn trang upload. Sau khi nạp sketch, ESP32 tự tạo WiFi AP và hiển thị trang upload ngay tại <code>192.168.4.1</code>.</div>
+    </div>
+
+    <ul class="steps">
+      <li>
+        <div class="step-dot">1</div>
+        <div>
+          <strong>Kết nối vào WiFi AP của ESP32</strong>
+          <div class="settings-grid" style="margin-top:10px;">
+            <div class="setting-item"><span class="setting-key">Tên WiFi AP</span><span class="setting-val">yoRadioAP</span></div>
+            <div class="setting-item"><span class="setting-key">Mật khẩu</span><span class="setting-val">12345987</span></div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="step-dot">2</div>
+        <div>
+          <strong>Mở trình duyệt → vào <code>http://192.168.4.1</code></strong><br>
+          <span class="note-dim">Trang upload tự hiện. Nếu trình duyệt hỏi "không có internet có tiếp tục không" → chọn tiếp tục.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-dot">3</div>
+        <div>
+          <strong>Chọn TẤT CẢ 11 file trong thư mục <code>yoRadio/data/www/</code> → Upload</strong><br>
+          <span class="note-dim">Chọn tất cả cùng lúc (Ctrl+A), không upload từng file một. Danh sách 11 file:</span>
+          <pre><span class="c-green">dragpl.js.gz · ir.css.gz · ir.js.gz · irrecord.html.gz · logo.svg.gz
+options.html.gz · player.html.gz · script.js.gz · style.css.gz
+theme.css · updform.html.gz</span></pre>
+          <div class="alert warn" style="margin-top:8px;">
+            <span class="alert-icon">⚠️</span>
+            <div>Phải đủ cả <strong>11 file</strong>. Thiếu <code>updform.html.gz</code> → chức năng update firmware không hoạt động.</div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="step-dot">4</div>
+        <div>
+          <strong>ESP32 tự restart sau khi upload xong</strong><br>
+          <span class="note-dim">Bình thường. Sau restart, nếu chưa cấu hình WiFi → ESP32 tiếp tục ở AP mode để bạn nhập WiFi.</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════ PHẦN 6 -->
+  <div class="section" id="phan6">
+    <div class="section-header">
+      <div class="step-num">6</div>
+      <div class="section-title">Cấu hình lần đầu (First Boot)</div>
+    </div>
+
+    <ul class="steps">
+      <li>
+        <div class="step-dot">1</div>
+        <div>
+          <strong>Nhập WiFi nhà</strong><br>
+          <span class="note-dim">Vẫn tại <code>192.168.4.1</code> → nhập SSID và password WiFi → Save → ESP32 tự kết nối và reboot.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-dot">2</div>
+        <div>
+          <strong>Truy cập giao diện radio</strong><br>
+          <span class="note-dim">ESP32 hiển thị địa chỉ IP trên màn hình TFT. Mở trình duyệt → vào IP đó (ví dụ <code>http://192.168.1.19</code>).</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-dot">3</div>
+        <div>
+          <strong>Import playlist.csv</strong><br>
+          <span class="note-dim">Nhấn icon 🎵 (playlist) → tìm nút Import → chọn file <code>playlist.csv</code> → Upload.</span><br>
+          <span class="note-dim">Hoặc vào Settings → WEB Board Uploader → upload <code>playlist.csv</code> cùng lúc với web files.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-dot">4</div>
+        <div>
+          <strong>Settings → Timezone</strong><br>
+          <span class="note-dim">hours: <strong>7</strong> · minutes: <strong>0</strong> · NTP server: <code>pool.ntp.org</code> → nhấn APPLY.</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-dot">5</div>
+        <div>
+          <strong>Settings → Controls → IR Recorder (tùy chọn)</strong><br>
+          <span class="note-dim">Nhấn từng nút trên web → bấm nút tương ứng trên remote IR để gán chức năng.</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════ PHẦN 7 -->
+  <div class="section" id="phan7">
+    <div class="section-header">
+      <div class="step-num orange">7</div>
+      <div class="section-title">Điều khiển thiết bị</div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Thao tác Encoder KY-040</th><th>Kết quả</th></tr></thead>
+        <tbody>
+          <tr><td>Xoay phải</td><td>Tăng âm lượng</td></tr>
+          <tr><td>Xoay trái</td><td>Giảm âm lượng</td></tr>
+          <tr><td>Nhấn 1 lần (SW)</td><td>Play / Stop</td></tr>
+          <tr><td>Nhấn 2 lần nhanh</td><td>Chuyển WEB ↔ SD Card mode</td></tr>
+          <tr><td>Nhấn giữ</td><td>Hiện / ẩn playlist</td></tr>
+          <tr><td>Xoay khi đang ở playlist</td><td>Di chuyển lên/xuống</td></tr>
+          <tr><td>Nhấn 1 lần khi ở playlist</td><td>Chọn đài / bài nhạc</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-wrap" style="margin-top:16px;">
+      <table>
+        <thead><tr><th>Touchscreen</th><th>Kết quả</th></tr></thead>
+        <tbody>
+          <tr><td>Vuốt ngang</td><td>Chỉnh âm lượng</td></tr>
+          <tr><td>Vuốt dọc</td><td>Chọn đài</td></tr>
+          <tr><td>Tap 1 lần (PLAYER mode)</td><td>Play / Stop</td></tr>
+          <tr><td>Tap 1 lần (PLAYLIST mode)</td><td>Chọn</td></tr>
+          <tr><td>Giữ tap (PLAYLIST mode)</td><td>Hủy</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════ PHẦN 8 -->
+  <div class="section" id="phan8">
+    <div class="section-header">
+      <div class="step-num red">8</div>
+      <div class="section-title">Troubleshooting</div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Triệu chứng</th><th>Nguyên nhân</th><th>Cách sửa</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Lỗi compile</strong></td><td>IDE 2.x hoặc core 3.x hoặc cài thư viện đã built-in</td><td>Dùng IDE 1.8.19 + core 2.x. Gỡ IRremoteESP8266, ESP32-audioI2S nếu đã cài</td></tr>
+          <tr><td><strong>Màn hình trắng/đen</strong></td><td>Sai chân CS/DC/RST hoặc thiếu dây RST</td><td>Kiểm tra IO5/IO4/IO15 và dây RST→IO15</td></tr>
+          <tr><td><strong>Không có âm thanh</strong></td><td>Sai I2S pins hoặc thiếu VS1053_CS 255</td><td>Kiểm tra IO25/26/27, thêm <code>#define VS1053_CS 255</code></td></tr>
+          <tr><td><strong>Web interface trắng</strong></td><td>Chưa upload 11 file data/www</td><td>Kết nối AP → upload đủ 11 file qua 192.168.4.1</td></tr>
+          <tr><td><strong>Icon WiFi/signal lạ</strong></td><td>Chưa thay glcdfont.c</td><td>Thay file theo Bước 2.5</td></tr>
+          <tr><td><strong>Touch không phản hồi</strong></td><td>Sai chân T_CS hoặc T_DO</td><td>T_CS=IO16, T_DO=IO19</td></tr>
+          <tr><td><strong>Encoder ngược chiều</strong></td><td>Đổi ngược CLK/DT</td><td>Đổi chỗ 2 dây vật lý, hoặc đổi ENC_BTNL↔ENC_BTNR trong myoptions.h</td></tr>
+          <tr><td><strong>Failed to connect</strong></td><td>ESP32 không vào bootloader</td><td>Giữ BOOT → nhấn Upload → thả BOOT khi thấy "Connecting..."</td></tr>
+          <tr><td><strong>SD card không nhận</strong></td><td>Dây bus lỏng hoặc sai CS</td><td>Kiểm tra IO17/18/19/23</td></tr>
+          <tr><td><strong>Thời tiết không hiện</strong></td><td>Chưa nhấn APPLY hoặc API key mới tạo</td><td>Settings → Weather → nhấn APPLY. API key mới cần 2 giờ để active</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert success" style="margin-top:24px;">
+      <span class="alert-icon">✅</span>
+      <div><strong>Khi mọi thứ hoạt động đúng:</strong> Màn hình ST7789V hiển thị tên đài, tên bài, đồng hồ, thời tiết. Xoay encoder để chỉnh âm lượng. Nhấn đôi để chuyển WEB/SD mode. Web interface tại IP của ESP32 để quản lý playlist và settings.</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div>YoRadio by e2002 · <a href="https://github.com/e2002/yoradio">github.com/e2002/yoradio</a></div>
+  <div style="margin-top:4px;">Hướng dẫn v2 — Đã sửa các lỗi: Partition Scheme, thư viện IRremoteESP8266, XTASK_MEM_SIZE, quy trình upload data.</div>
+  <div style="margin-top:4px; color: #4a5568;">Xác minh qua source code v0.9.720 · Kiểm tra thực tế</div>
+</footer>
+
+</body>
+</html>
